@@ -38,11 +38,26 @@ schválení) a `rodokmen/poznamky/migrace.md` (v jakém stavu je převod). Cesta
 4. Do `poznamky/denik-hledani.md` řádek (co, kde, výsledek); co potřebuje rozhodnutí, do `poznamky/ukoly.md`.
 5. `python3 -I _nastroje/kontrola_soukromi.py .` musí vyjít bez chyb.
 
-## 5. Export na web (fáze 5): `_nastroje/export_z_vaultu.py`
-Skript ve vaultu generuje z poznámek soubory, které čte `tools/export_web.py` (`data/osoby.py`, `zaznamy.json`, `svazky.json`,
-`prepisy.json`, `strom.py`, `import/gedcom.json`, výřezy). `data/` v repu webu je pak jen výstup a **needituje se**.
+## 5. Export na web (fáze 5): `tools/export_z_vaultu.py`
+Nástroj ze skillu generuje z poznámek vaultu soubory, které čte `tools/export_web.py` (`data/osoby.py`, `zaznamy.json`,
+`svazky.json`, `prepisy.json`, `strom.py`, `import/gedcom.json`, výřezy). `data/` v repu webu je pak jen výstup a **needituje se**.
+```
+python3 -I SKILL_DIR/tools/export_z_vaultu.py --vault <vault> [--slozka rodokmen] [--projekt <web>] --navrh | --oznacit | (export) | --zapsat
+```
 - Jde ven jen `verejne: true` (zemřelé osoby, zápisy) a `verejne: omezene` (jen jméno a rok narození, i pro žijící).
   Výchozí je `false`. Žijící osoba nikdy `true`.
-- Postup: `--navrh` (jen výpis) → **souhlas uživatele** → `--oznacit` → export do `pracovni/export_z_vaultu/` → kontrola výstupu →
+- Postup: `--navrh` (jen výpis) → **souhlas uživatele** → `--oznacit` → export do `<web>/pracovni/export_z_vaultu/` → kontrola výstupu →
   `--zapsat` → `npm run data` a `npm run build` v `web/`. Nasazení webu jen na výslovný pokyn (`reference/web.md`).
-- Export se zastaví, když `kontrola_soukromi.py` hlásí chybu nebo když se ve výstupu objeví jméno neveřejné žijící osoby.
+- Export se zastaví, když kontrola soukromí hlásí chybu (použije `<vault>/_nastroje/kontrola_soukromi.py`, nemá-li vault vlastní,
+  tak `tools/kontrola_vaultu.py`) nebo když se ve výstupu objeví jméno neveřejné žijící osoby.
+
+## 6. Formát poznámek, na který se nástroj spoléhá
+- Osoba: `cr_type: person`, `name`, `born`/`died` (ISO, `ABT rok`, nebo rok), `kekule` (jen přímí předci), `gedcom_id` (nepovinné),
+  `father`/`mother`/`spouse`/`children` jako `[[odkaz]]`, `jistota`, `soukromi` (`zijici`/`zemrely`), `verejne`, volitelně `varovani:` (seznam).
+  Tělo: sekce `## Co o osobě víme` (odrážky → fakta), další sekce (kromě Původ, Zdroj, Citace z exportu, Příbuzenství) → poznámka.
+- Zápis: `cr_type: source`, `klic` (klíč zápisu s podtržítky), `source_parent` (poznámka svazku), `snimek`, `druh` (N/O/Z/…),
+  `source_repository_url`, `title`; v těle `**Datum zápisu:**`, sekce `Přepis originálu`, `Český překlad / vysvětlení`, `Co zápis dokládá`;
+  výřez `<poznámka>.jpg` ve stejné složce.
+- Svazek: `title`, `repository`, `portal`, `source_repository_url`, v těle `**Popis:**`.
+- Výchozí osoba webu je `kekule: 1` a musí být `verejne: true` nebo `omezene`.
+Test: `python3 -I tests/vault/test_export_z_vaultu.py skills/rodokmen`.

@@ -244,4 +244,5 @@ a `zdroje/` (výřezy pro web / plné rozlišení), `dokumenty/` (originály od 
 | `napady.py` | náměty na zajímavosti z dat |
 | `kontrola.py` | kontrola dat; hlásí i citlivé údaje na webu a kdy psát příběh |
 | `slusne.py` | brzda proti zablokování archivem (`stav`, `zastav`, `odblokuj`) |
+| `export_z_vaultu.py`, `kontrola_vaultu.py` | režim vault: poznámky Obsidianu → `data/` webu s povolením `verejne`; kontrola soukromí vaultu (`obsidian.md`) |
 | `export_web.py`, `fan_chart.py` | data → web (volá ho `npm run data`); vějíř jako plakát k tisku |
