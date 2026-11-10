@@ -17,7 +17,7 @@ uživatel dodává znalost rodiny, rozhoduje sporná místa a schvaluje, co jde 
 Najdeš v ní `tools/` (nástroje), `template/` (šablona projektu a webu) a `reference/` (podrobné návody – čti je, až je potřebuješ):
 `instalace.md` (příprava počítače, Windows), `matriky.md` (čtení matrik, pasti), `portaly.md` (archivy), `metodika.md`
 (spojování záznamů, ztotožnění, mrtvé body, prameny mimo ČR), `data.md` (formát dat, import stromu), `pribehy.md`,
-`web.md`, `soukromi.md`.
+`web.md`, `soukromi.md`, `obsidian.md` (režim vault: Obsidian jako zdroj pravdy), `pomocnici.md` (Opus řídí, levný model čte; limity).
 
 ## Jak mluvit s uživatelem
 - **Česky, stručně, lidsky.** Žádný žargon bez vysvětlení (Kekulé, N/O/Z, apu…). Místo „commitnu“ řekni „uložím“.
@@ -45,6 +45,7 @@ Najdeš v ní `tools/` (nástroje), `template/` (šablona projektu a webu) a `re
      „Hlídač sítě: vypnutý“, zeptej se, jestli ho zapnout (`--hlidac`, vysvětlení v `reference/instalace.md`).
    - Hlídač sítě kontrolu zamítne (starší projekt) → spusť ji přes brzdu: `python3 -I tools/slusne.py SKILL_DIR/tools/verze.py <složka projektu>`.
 2. Projekt ještě není → **Fáze 0**.
+3. Ve vaultu je `rodokmen/CLAUDE.md` a `_nastroje/kontrola_soukromi.py` (nebo uživatel řekl, že zdrojem pravdy je Obsidian vault)? → **režim vault**: přečti `reference/obsidian.md`, `data/` projektu needituješ (je výstup exportu).
 
 ## Fáze 0 – Příprava (jednou)
 **Než začneš, přečti `reference/instalace.md`** a postupuj podle něj: kontrola nástrojů (Python ≥ 3.9, Node ≥ 20, ImageMagick, git), certifikáty na
@@ -148,6 +149,7 @@ pro každý web pro všechny procesy na počítači.
   všechny projekty; `cache.py stav` ukáže úsporu). Snímky eBadatelny ukládej z prohlížeče (`portaly.md`).
 
 ### Pomocníci (subagenti) – šetrně
+**Velká kola čtení (stovky snímků):** řiď se `reference/pomocnici.md` (Opus řídí a ověřuje, levný model GPT-6.1 Terra čte, pevné limity, při chybě kreditů stop). Níže obecná pravidla pro Claude pomocníky.
 Na velké kolo (např. „projdi 5 svazků a najdi všechny Nováky“) můžeš pustit 2–4 pomocníky paralelně, každého na
 jinou větev nebo archiv (jedno kolo ≈ 15–25 nových předků). Stojí hodně kreditů – před velkým kolem řekni uživateli,
 co plánuješ a proč, a nech si to schválit. **Spouštěj je na levnějším modelu** (Agent s `model: "sonnet"`):
